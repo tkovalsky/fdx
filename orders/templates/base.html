@@ -1,0 +1,145 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock title %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+
+    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
+
+	<!--additional css -->
+	<link rel="stylesheet" href="{% static 'css/toolkit-light.css' %}">
+	<link rel="stylesheet" href="{% static 'css/application.css' %}">
+	<link rel="stylesheet" href="{% static 'css/docs.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+    <style>
+      /* note: this is a hack for ios iframe for bootstrap themes shopify page */
+      /* this chunk of css is not part of the toolkit :) */
+      body {
+        width: 1px;
+        min-width: 100%;
+        *width: 100%;
+      }
+    </style>
+
+</head>
+
+<body>
+  <div class="container">
+    {% block body %}
+    <div class="row">
+      <div class="col-md-3 sidebar">
+      {% block sidebar %}
+        <nav class="sidebar-nav">
+          <div class="sidebar-header">
+            <button class="nav-toggler nav-toggler-md sidebar-toggler" type="button" data-toggle="collapse" data-target="#nav-toggleable-md">
+              <span class="sr-only">Toggle nav</span>
+            </button>
+            <a class="sidebar-brand img-responsive" href="{% url 'index' %}">
+              <span class="icon icon-leaf sidebar-brand-icon"></span>
+            </a>
+          </div>
+
+          <div class="collapse nav-toggleable-md" id="nav-toggleable-md">
+            <form class="sidebar-form">
+              <input class="form-control" type="text" placeholder="Search...">
+              <button type="submit" class="btn-link">
+                <span class="icon icon-magnifying-glass"></span>
+              </button>
+            </form>
+            <ul class="nav nav-pills nav-stacked">
+              <li class="nav-header">Dashboard</li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Overview</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="{% url 'contacts' %}">Contacts</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="{% url 'companies' %}">Companies</a>
+              </li>
+
+              <li class="nav-header">Create New</li>
+              <li class="nav-item">
+                <a class="nav-link "href="{% url 'add-contact' %}">
+                  Contact
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link "href="{% url 'add-company' %}">
+                  Company
+                </a>
+              </li>
+
+<!--              <li class="nav-header">UPDATEME</li>
+              {# if request.user.is_authenticated #}
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Sign out</a>
+                </li>
+              {# else #}
+                <li class="nav-item">
+                  <a id="sign-up-link" class="nav-link" href="{# url 'account_signup' #}">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                  <a id="log-in-link" class="nav-link" href="{# url 'account_login' #}">Sign In</a>
+                </li>
+              {# endif #}
+-->
+
+              <!--modal nav item-->
+              <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#docsModal" data-toggle="modal">-->
+                  <!--Example modal-->
+              <!--  </a>-->
+              <!--</li>-->
+            </ul>
+            <hr class="visible-xs mt-3">
+          </div>
+        </nav>
+        {% endblock sidebar %}
+      </div>
+
+
+
+<div class="col-md-9 content">
+
+<div class="dashhead">
+
+{% include 'messages.html' %}
+
+{% block content %}{% endblock content %}
+
+
+{% block modal %}
+
+{% endblock modal %}
+</div>
+{% endblock body %}
+</div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/tether.min.js' %}"></script>
+    <script src="{% static 'js/chart.js' %}"></script>
+    <script src="{% static 'js/tablesorter.min.js' %}"></script>
+    <script src="{% static 'js/toolkit.js' %}"></script>
+    <script src="{% static 'js/application.js' %}"></script>
+    <script>
+      // execute/clear BS loaders for docs
+      $(function(){while(window.BS&&window.BS.loader&&window.BS.loader.length){(window.BS.loader.pop())()}})
+    </script>
+
+  </body>
+</html>

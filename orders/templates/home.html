@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>FolioDynamix </h1>
+
+   <p> Welcome to <em>Folio</em></p>
+
+<h2>Dynamic content</h2>
+
+   <p> There are these many records:</p>
+
+   <ul>
+      <li><strong>Orders:</strong> {{ num_orders }} </li>
+   </ul>
+
+{% endblock %}
