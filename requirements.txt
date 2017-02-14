@@ -1,0 +1,12 @@
+appdirs==1.4.0
+dj-database-url==0.4.2
+Django==1.10.5
+django-crispy-forms==1.6.1
+django-extensions==1.7.5
+hellowebapp-deploy==1.0.2
+packaging==16.8
+psycopg2==2.6.2
+pyparsing==2.1.10
+six==1.10.0
+waitress==1.0.1
+whitenoise==3.3.0
