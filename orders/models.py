@@ -6,8 +6,40 @@ from django_extensions.db.models import TimeStampedModel
 from django.urls import reverse
 
 
-class Transaction(TimeStampedModel):
+class Order(TimeStampedModel):
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    ORDER_STATUS_CHOICES = (
+        ('u', 'Undefined'),
+    )
+
+    status = models.CharField(max_length=1, choices=ORDER_STATUS_CHOICES,
+            blank=True, default='u')
+    quantity = models.DecimalField(max_digits=10, decimal_places=4)
+    symbol = models.CharField(max_length=10, null=False, blank=False)
+    cusip = models.CharField(max_length=10, null=True, blank=True)
+    stop_price = models.DecimalField(max_digits=10, decimal_places=4)
+    limit_price = models.DecimalField(max_digits=10, decimal_places=4)
+    #average_price = models.DecimalField(max_digits=10, decimal_places=4)
+
+class Broker(TimeStampedModel):
+    transactions = models.ForeignKey('Transaction', blank=True, null=True)
+    name = models.CharField(max_length=50, null=False, blank=False)
+    short_code = models.CharField(max_length=10, null=False, blank=False)
+
+    BROKER_STATUS_CHOICES = (
+        ('a', 'Approved'),
+        ('n', 'Not Approved'),
+    )
+
+    status = models.CharField(max_length=1, choices=BROKER_STATUS_CHOICES,
+            blank=True, default='n')
+    default_commission_per_share = models.DecimalField(max_digits=4, decimal_places=4, default=0.03)
+
+
+class Transaction(TimeStampedModel):
+    order = models.ForeignKey('Order', blank=True, null=True)
+    execution_timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     trade_date = models.DateTimeField(auto_now=False, auto_now_add=False, blank=False)
     settlement_date = models.DateTimeField(auto_now=False, auto_now_add=False)
 
@@ -33,13 +65,11 @@ class Transaction(TimeStampedModel):
     )
     transaction_type = models.CharField(max_length=4, choices=TRANSACTION_TYPE_CHOICES,
             blank=False, help_text="type")
-    symbol = models.CharField(max_length=10, null=False, blank=False)
-    cusip = models.CharField(max_length=10, null=True, blank=True)
-    quantity = models.DecimalField(max_digits=10, decimal_places=4)
-    price = models.DecimalField(max_digits=10, decimal_places=4)
+    filled_quantity = models.DecimalField(max_digits=10, decimal_places=4)
+    executed_price = models.DecimalField(max_digits=10, decimal_places=4)
     fee = models.DecimalField(max_digits=10, decimal_places=4)
     cents_per_share = models.DecimalField(max_digits=10, decimal_places=4, default=0.03)
-    transaction_amount_gross = models.DecimalField(max_digits=10, decimal_places=4)
+    transaction_amount_gross = models.DecimalField(max_digits=25, decimal_places=4)
 
     SLEEVE_TYPE_CHOICES = (
         ('e', 'Equity'),
@@ -54,7 +84,8 @@ class Transaction(TimeStampedModel):
 
 
     def __str__(self):
-        return self.name
+        return "%s  %s  %s  %s  %s" % (self.transaction_type, self.filled_quantity, self.executed_price,
+                                self.broker_of_record, self.cents_per_share)
 
     def get_absolute_url(self):
          """
