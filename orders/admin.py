@@ -1,16 +1,42 @@
 from django.contrib import admin
 
-from .models import Contact, Company, Note, Touch, Opportunity
+from .models import Transaction, Account
 # Register your models here.
 
-class ContactsInline(admin.TabularInline):
-    model = Contact
-    extra = 1
+@admin.register(Account)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = (
+            'number', 'name',)
+    list_display_links = (
+            'number',)
+    #list_filter = (
+    #        'symbol','trade_date',)
+    search_fields = ['number', 'name',]
 
-class TouchesInline(admin.TabularInline):
-    model = Touch
-    extra = 1
 
+
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = (
+            'timestamp', 'trade_date', 'settlement_date', 'transaction_type',
+            'symbol', 'quantity', 'price',)#'account__number',
+    list_display_links = (
+            'symbol',)
+    list_filter = (
+            'symbol','trade_date',)
+    search_fields = ['symbol',]
+#    fieldsets = (
+#        (None, {
+#            'fields': ('name', 'type_of_business', 'web_site_url', 'phone', 'email_composition' )
+#        }),
+#    )
+#    inlines = [
+#        ContactsInline,
+#        NotesInline,
+#    ]
+
+
+'''
 class NotesInline(admin.TabularInline):
     model = Note
     extra = 1
@@ -31,42 +57,9 @@ class ContactAdmin(admin.ModelAdmin):
 
     )
     inlines = [
-        TouchesInline,
         NotesInline,
     ]
 
+'''
 
-
-@admin.register(Company)
-class CompanyAdmin(admin.ModelAdmin):
-    list_display = (
-            'name', 'type_of_business', 'web_site_url', 'phone', 'email_composition')
-    list_display_links = (
-            'name',)
-    list_filter = (
-            'name',)
-    search_fields = ['name','email_composition', 'type_of_business', 'company__contacts',]
-    fieldsets = (
-        (None, {
-            'fields': ('name', 'type_of_business', 'web_site_url', 'phone', 'email_composition' )
-        }),
-
-    )
-    inlines = [
-        ContactsInline,
-        NotesInline,
-    ]
-
-@admin.register(Note)
-class NoteAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(Touch)
-class TouchAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(Opportunity)
-class OpportunityAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(Contact, ContactAdmin)
+#admin.site.register(Transaction, TransactionAdmin)

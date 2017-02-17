@@ -1,6 +1,6 @@
 from django import forms
 
-class ContactForm(forms.Form):
+class TransactionForm(forms.Form):
     contact_name = forms.CharField(required=True)
     contact_email = forms.EmailField(required=True)
     contact_message = forms.CharField(required=True,

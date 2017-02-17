@@ -18,7 +18,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import RedirectView, TemplateView
-from contacts import views
+from orders import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -26,4 +26,4 @@ urlpatterns = [
     url(r'^orders/', include('orders.urls')),
     ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

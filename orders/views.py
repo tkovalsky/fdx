@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin #TODO
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
+from django.urls import reverse_lazy
 from django.db.models import Q
 from django.forms.utils import ErrorList
 from django.http import HttpResponseRedirect
@@ -11,66 +12,59 @@ from django.template.loader import get_template
 from django.views.generic import TemplateView, DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .forms import ContactForm
-from .models import Contact, Company, Touch, Opportunity
+from .forms import TransactionForm
+from .models import Transaction, Account
 
-
-
-# top page views
-
-
-
-# Contacts views
-class ContactListView(ListView):
-    model = Contact
+# Transaction views
+class TransactionListView(ListView):
+    model = Transaction
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ContactListView, self).get_context_data(*args, **kwargs)
+        context = super(TransactionListView, self).get_context_data(*args, **kwargs)
 
-class ContactDetailView(DetailView):
-    model = Contact
+class TransactionDetailView(DetailView):
+    model = Transaction
 
-class AddContactView(CreateView):
+class CreateTransactionView(CreateView):
     #can use fields or form_class
     #form_class = AddSaleForm
-    model = Contact
+    model = Transaction
     fields = '__all__'
 
-class UpdateContactView(UpdateView):
-    model = Contact
+class UpdateTransactionView(UpdateView):
+    model = Transaction
     fields = '__all__'
 
-class DeleteContactView(DeleteView):
-    model = Contact
-    #success_url = reverse_lazy('contacts')
+class DeleteTransactionView(DeleteView):
+    model = Transaction
+    success_url = reverse_lazy('transactions')
 
-
-# Company views
-class CompanyListView(ListView):
-    model = Company
+# Account views
+class AccountListView(ListView):
+    model = Account
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CompanyListView, self).get_context_data(*args, **kwargs)
+        context = super(AccountListView, self).get_context_data(*args, **kwargs)
 
-class CompanyDetailView(DetailView):
-    model = Company
+class AccountDetailView(DetailView):
+    model = Account
 
-class AddCompanyView(CreateView):
+class CreateAccountView(CreateView):
     #can use fields or form_class
     #form_class = AddSaleForm
-    model = Company
+    model = Account
     fields = '__all__'
 
-class UpdateCompanyView(UpdateView):
-    model = Company
+class UpdateAccountView(UpdateView):
+    model = Account
     fields = '__all__'
 
-class DeleteCompanyView(DeleteView):
-    model = Company
-    #success_url = reverse_lazy('companies')
+class DeleteAccountView(DeleteView):
+    model = Account
+    success_url = reverse_lazy('accounts')
 
 
-
+'''
 # marketing page
 def home(request):
     form_class = ContactForm
@@ -102,16 +96,17 @@ def home(request):
             return redirect('home')
 
     return render(request, 'home.html', { 'form': form_class, })
+'''
 
 def index(request):
     """
     function based view  for the home page of this site
     """
-    new_contacts=Contact.objects.all()[:5]
+    new_tranasactions=Transaction.objects.all()[:5]
 
 
     #Generate counts for some main objects
-    num_contacts=Contact.objects.all().count()
+    num_transactions=Transaction.objects.all().count()
     # Available books (status = 'a')
     #num_instances_available=BookInstance.objects.filter(status__exact='a').count()
     #num_authors=Author.objects.count() #'All' is implied by default
@@ -121,7 +116,7 @@ def index(request):
         request,
         'index.html',
         context={
-            'new_contacts':new_contacts,
-            'num_contacts':num_contacts,
+            'new_transactions':new_transactions,
+            'num_transactions':num_transactions,
         },
     )
