@@ -103,10 +103,12 @@ def index(request):
     function based view  for the home page of this site
     """
     new_tranasactions=Transaction.objects.all()[:5]
+    new_orders=Order.objects.all()[:5]
 
 
     #Generate counts for some main objects
     num_transactions=Transaction.objects.all().count()
+    num_orders=Order.objects.all().count()
     # Available books (status = 'a')
     #num_instances_available=BookInstance.objects.filter(status__exact='a').count()
     #num_authors=Author.objects.count() #'All' is implied by default
@@ -118,5 +120,7 @@ def index(request):
         context={
             'new_transactions':new_transactions,
             'num_transactions':num_transactions,
+            'new_orders':new_orders,
+            'num_orders':num_orders,
         },
     )

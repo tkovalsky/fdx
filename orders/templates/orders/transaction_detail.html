@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="dashhead mt-4">
+
+<div class="dashhead-titles">
+  <h6 class="dashhead-subtitle">Transaction Detail</h6>
+  <h2 class="dashhead-title">{{ transaction.name }}</h2>
+</div>
+
+
+<div class="flextable table-actions">
+  <div class="flextable-item flextable-primary">
+
+  </div>
+  <div class="flextable-item">
+    <div class="btn-group">
+      <button type="button" class="btn btn-outline-primary" href="#">
+        <span class="icon icon-pencil"></span>
+      </button>
+      <button type="button" class="btn btn-outline-primary" href="#">
+        <span class="icon icon-erase"></span>
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<!--<div class="hr-divider mt-5 mb-4">
+  <h3 class="hr-divider-content hr-divider-heading">Lease Details</h3>
+</div>
+-->
+<ul>
+  <li><strong>Company name:</strong> {{ contact.company }}
+  <li><strong>Email:</strong> {{ contact.email_address }}
+  <li><strong>LinkedIn:</strong> {{ contact.linkedin_profile_url }}</li>
+  <li><strong>Phone:</strong> {{ contact.phone }}</li>
+  <li><strong>Extension:</strong> {{ contact.extension }}</li>
+  <li><strong>Notes:</strong> {{ contact.notes }}</li>
+  <li><strong>Touches:</strong> {{ contact.touches }}</li>
+  <li><strong>added_by:</strong> {{ contact.added_by }}</li>
+
+
+
+
+
+
+    <hr>
+
+
+  {% if lease.term_set %}
+  <div class="hr-divider mt-5 mb-4">
+    <h3 class="hr-divider-content hr-divider-heading">Touches</h3>
+  </div>
+
+
+    <div class="container">
+
+    <div class="table-responsive">
+      <table class="table" data-sort="table">
+        <thead>
+          <tr>
+            <!--<th><input type="checkbox" class="select-all" id="selectAll"></th>-->
+            <th>Id</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Commission (%)</th>
+            <th>Terms</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for term in lease.term_set.all %}
+
+          <tr>
+            <!--<<td><input type="checkbox" class="select-row"></td>-->
+            <td><a href="#">{{ term.id }}</a></td>
+            <td>{{ term.start_date }}</td>
+            <td>{{ term.end_date }}</td>
+            <td>{{ term.commission_rate }}</td>
+            <td>{{ term.terms }}</td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+  <div class="hr-divider mt-5 mb-4">
+    <h3 class="hr-divider-content hr-divider-heading">No Lease Options</h3>
+  </div>
+
+
+
+    {% endif %}
+
+
+
+
+
+
+{% if lease.option_set %}
+<div class="hr-divider mt-5 mb-4">
+  <h3 class="hr-divider-content hr-divider-heading">Lease Options</h3>
+</div>
+
+
+
+<!--      <p class="{# if copy.status == 'a' #}text-success{# elif copy.status == 'd' #}text-danger{# else #}text-warning{# endif #}">{# copy.get_status_display #}</p>
+      {# if copy.status != 'a' #}<p><strong>Due back on:</strong> {# copy.due_back #}</p> {# endif #}-->
+
+
+  <div class="container">
+
+
+  <div class="table-responsive">
+    <table class="table" data-sort="table">
+      <thead>
+        <tr>
+          <!--<th><input type="checkbox" class="select-all" id="selectAll"></th>-->
+          <th>Id</th>
+          <th>Start date</th>
+          <th>End Date</th>
+          <th>Rent Rate</th>
+          <th>Commission</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for option in lease.option_set.all %}
+
+        <tr>
+          <!--<<td><input type="checkbox" class="select-row"></td>-->
+          <td><a href="#">{{ option.id }}</a></td>
+          <td>{{ option.commencement_date }}</td>
+          <td>{{ option.end_date }}</td>
+          <td>FIELD 2</td>
+          <td>FIELD 3</td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+{% else %}
+<div class="hr-divider mt-5 mb-4">
+  <h3 class="hr-divider-content hr-divider-heading">No Orders</h3>
+</div>
+
+
+
+  {% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+    {% if account_list %}
+
+    {% for account in account_list %}
+
+          <a class="list-group-item list-group-item-action" href="{{ account.get_absolute_url }}">
+            <span class="list-group-progress" style="width: 100.0%;"></span>
+            <span class="float-right text-muted">${{ account.number }}</span>
+            {{ account.name }}
+          </a>
+{% endfor %}
+{% else %}
+  <p>There are no accounts.</p>
+{% endif %}
+
+      </div>
+      <a href="#" class="btn btn-outline-primary px-3">View all accounts</a>
+    </div>
+  </div>
+
+
+
+
+
+      {% endblock %}

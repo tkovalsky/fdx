@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Transactions</h1>
+
+    {% if transaction_list %}
+
+    {% for transaction in transaction_list %}
+
+          <a class="list-group-item list-group-item-action" href="{{ transaction.get_absolute_url }}">
+            <span class="list-group-progress" style="width: 100.0%;"></span>
+            <span class="float-right text-muted">${{ transaction.transaction_type }}</span>
+            {{ transaction.filled_quantity }}
+          </a>
+{% endfor %}
+{% else %}
+  <p>There are no transactions.</p>
+{% endif %}
+
+      </div>
+      <a href="#" class="btn btn-outline-primary px-3">View all transactions</a>
+    </div>
+  </div>
+
+
+
+
+
+      {% endblock %}
